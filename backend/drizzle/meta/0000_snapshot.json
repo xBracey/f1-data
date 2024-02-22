@@ -1,21 +1,97 @@
 {
   "version": "5",
   "dialect": "sqlite",
-  "id": "fd665c9a-2d01-418c-94b7-6b5fcebb7dc4",
+  "id": "6874360d-399a-4afd-8f93-fda277225816",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
-    "users": {
-      "name": "users",
+    "racing_class": {
+      "name": "racing_class",
       "columns": {
         "id": {
           "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true,
+          "autoincrement": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "season": {
+      "name": "season",
+      "columns": {
+        "year": {
+          "name": "year",
           "type": "text",
           "primaryKey": false,
           "notNull": false,
           "autoincrement": false
         },
-        "username": {
-          "name": "username",
+        "start": {
+          "name": "start",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "end": {
+          "name": "end",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "racing_class_name": {
+          "name": "racing_class_name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        }
+      },
+      "indexes": {
+        "season_year_racing_class_name_unique": {
+          "name": "season_year_racing_class_name_unique",
+          "columns": [
+            "year",
+            "racing_class_name"
+          ],
+          "isUnique": true
+        }
+      },
+      "foreignKeys": {
+        "season_racing_class_name_racing_class_id_fk": {
+          "name": "season_racing_class_name_racing_class_id_fk",
+          "tableFrom": "season",
+          "tableTo": "racing_class",
+          "columnsFrom": [
+            "racing_class_name"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "country": {
+      "name": "country",
+      "columns": {
+        "name": {
+          "name": "name",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "continent": {
+          "name": "continent",
           "type": "text",
           "primaryKey": false,
           "notNull": false,
@@ -24,6 +100,342 @@
       },
       "indexes": {},
       "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "team": {
+      "name": "team",
+      "columns": {
+        "name": {
+          "name": "name",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "base": {
+          "name": "base",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "country_name": {
+          "name": "country_name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "racing_class_name": {
+          "name": "racing_class_name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "team_country_name_country_name_fk": {
+          "name": "team_country_name_country_name_fk",
+          "tableFrom": "team",
+          "tableTo": "country",
+          "columnsFrom": [
+            "country_name"
+          ],
+          "columnsTo": [
+            "name"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "team_racing_class_name_racing_class_id_fk": {
+          "name": "team_racing_class_name_racing_class_id_fk",
+          "tableFrom": "team",
+          "tableTo": "racing_class",
+          "columnsFrom": [
+            "racing_class_name"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "driver": {
+      "name": "driver",
+      "columns": {
+        "name": {
+          "name": "name",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "country_name": {
+          "name": "country_name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "date_of_birth": {
+          "name": "date_of_birth",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "team_name": {
+          "name": "team_name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "driver_country_name_country_name_fk": {
+          "name": "driver_country_name_country_name_fk",
+          "tableFrom": "driver",
+          "tableTo": "country",
+          "columnsFrom": [
+            "country_name"
+          ],
+          "columnsTo": [
+            "name"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "driver_team_name_team_name_fk": {
+          "name": "driver_team_name_team_name_fk",
+          "tableFrom": "driver",
+          "tableTo": "team",
+          "columnsFrom": [
+            "team_name"
+          ],
+          "columnsTo": [
+            "name"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "team_season": {
+      "name": "team_season",
+      "columns": {
+        "team_name": {
+          "name": "team_name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "season_year": {
+          "name": "season_year",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "season_racing_class_name": {
+          "name": "season_racing_class_name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "points": {
+          "name": "points",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "position": {
+          "name": "position",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        }
+      },
+      "indexes": {
+        "team_season_team_name_season_year_season_racing_class_name_unique": {
+          "name": "team_season_team_name_season_year_season_racing_class_name_unique",
+          "columns": [
+            "team_name",
+            "season_year",
+            "season_racing_class_name"
+          ],
+          "isUnique": true
+        }
+      },
+      "foreignKeys": {
+        "team_season_team_name_team_name_fk": {
+          "name": "team_season_team_name_team_name_fk",
+          "tableFrom": "team_season",
+          "tableTo": "team",
+          "columnsFrom": [
+            "team_name"
+          ],
+          "columnsTo": [
+            "name"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "team_season_season_year_season_year_fk": {
+          "name": "team_season_season_year_season_year_fk",
+          "tableFrom": "team_season",
+          "tableTo": "season",
+          "columnsFrom": [
+            "season_year"
+          ],
+          "columnsTo": [
+            "year"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "team_season_season_racing_class_name_season_racing_class_name_fk": {
+          "name": "team_season_season_racing_class_name_season_racing_class_name_fk",
+          "tableFrom": "team_season",
+          "tableTo": "season",
+          "columnsFrom": [
+            "season_racing_class_name"
+          ],
+          "columnsTo": [
+            "racing_class_name"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "driver_season": {
+      "name": "driver_season",
+      "columns": {
+        "driver_name": {
+          "name": "driver_name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "team_name": {
+          "name": "team_name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "season_year": {
+          "name": "season_year",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "season_racing_class_name": {
+          "name": "season_racing_class_name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "points": {
+          "name": "points",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "position": {
+          "name": "position",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        }
+      },
+      "indexes": {
+        "driver_season_driver_name_team_name_season_year_unique": {
+          "name": "driver_season_driver_name_team_name_season_year_unique",
+          "columns": [
+            "driver_name",
+            "team_name",
+            "season_year"
+          ],
+          "isUnique": true
+        }
+      },
+      "foreignKeys": {
+        "driver_season_driver_name_driver_name_fk": {
+          "name": "driver_season_driver_name_driver_name_fk",
+          "tableFrom": "driver_season",
+          "tableTo": "driver",
+          "columnsFrom": [
+            "driver_name"
+          ],
+          "columnsTo": [
+            "name"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "driver_season_team_name_team_name_fk": {
+          "name": "driver_season_team_name_team_name_fk",
+          "tableFrom": "driver_season",
+          "tableTo": "team",
+          "columnsFrom": [
+            "team_name"
+          ],
+          "columnsTo": [
+            "name"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "driver_season_season_year_season_year_fk": {
+          "name": "driver_season_season_year_season_year_fk",
+          "tableFrom": "driver_season",
+          "tableTo": "season",
+          "columnsFrom": [
+            "season_year"
+          ],
+          "columnsTo": [
+            "year"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "driver_season_season_racing_class_name_season_racing_class_name_fk": {
+          "name": "driver_season_season_racing_class_name_season_racing_class_name_fk",
+          "tableFrom": "driver_season",
+          "tableTo": "season",
+          "columnsFrom": [
+            "season_racing_class_name"
+          ],
+          "columnsTo": [
+            "racing_class_name"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     }

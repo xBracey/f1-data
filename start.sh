@@ -1,2 +1,2 @@
-cd ./frontend && npm run dev &
-cd ./backend && npm run dev
+cd ./frontend && bun run dev &
+cd ./backend && bun run dev
